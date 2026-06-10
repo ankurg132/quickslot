@@ -14,16 +14,6 @@ class VenueListScreen extends ConsumerStatefulWidget {
 class _VenueListScreenState extends ConsumerState<VenueListScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-  String _selectedCategory = 'All';
-
-  final List<String> _categories = [
-    'All',
-    'Badminton',
-    'Football',
-    'Tennis',
-    'Basketball',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -52,7 +42,12 @@ class _VenueListScreenState extends ConsumerState<VenueListScreen> {
           children: [
             // New Header (racket icon, brand name, user avatar)
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 16.0, bottom: 8.0),
+              padding: const EdgeInsets.only(
+                left: 20.0,
+                right: 20.0,
+                top: 16.0,
+                bottom: 8.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -88,7 +83,10 @@ class _VenueListScreenState extends ConsumerState<VenueListScreen> {
 
             // Shorter Search Field
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 8.0,
+              ),
               child: SizedBox(
                 height: 48,
                 child: TextField(
@@ -96,7 +94,10 @@ class _VenueListScreenState extends ConsumerState<VenueListScreen> {
                   style: const TextStyle(fontSize: 14),
                   decoration: InputDecoration(
                     hintText: 'Search venues, sports, or location',
-                    hintStyle: const TextStyle(color: AppTheme.secondaryTextColor, fontSize: 14),
+                    hintStyle: const TextStyle(
+                      color: AppTheme.secondaryTextColor,
+                      fontSize: 14,
+                    ),
                     prefixIcon: const Icon(
                       Icons.search_rounded,
                       color: AppTheme.secondaryTextColor,
@@ -129,164 +130,116 @@ class _VenueListScreenState extends ConsumerState<VenueListScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: const BorderSide(color: AppTheme.accentColor, width: 1.5),
+                      borderSide: const BorderSide(
+                        color: AppTheme.accentColor,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-
-          // Horizontal Categories Timeline
-          SizedBox(
-            height: 52,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              itemCount: _categories.length,
-              itemBuilder: (context, index) {
-                final category = _categories[index];
-                final isSelected = _selectedCategory == category;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: ChoiceChip(
-                    label: Text(category),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      if (selected) {
-                        setState(() {
-                          _selectedCategory = category;
-                        });
-                      }
-                    },
-                    selectedColor: AppTheme.accentColor,
-                    backgroundColor: Colors.white,
-                    labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : AppTheme.textColor,
-                      fontWeight: isSelected
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
-                    side: BorderSide(
-                      color: isSelected
-                          ? Colors.transparent
-                          : AppTheme.borderColor,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // Venue List content
-          Expanded(
-            child: venuesAsync.when(
-              loading: () => const Center(
-                child: CircularProgressIndicator(color: AppTheme.accentColor),
-              ),
-              error: (err, stack) => Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.error_outline_rounded,
-                        size: 60,
-                        color: Colors.redAccent,
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Failed to load venues',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: AppTheme.textColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        err.toString(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: AppTheme.secondaryTextColor,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton.icon(
-                        onPressed: () =>
-                            ref.read(venuesNotifierProvider.notifier).refresh(),
-                        icon: const Icon(Icons.refresh_rounded),
-                        label: const Text('Try Again'),
-                      ),
-                    ],
-                  ),
+            // Venue List content
+            Expanded(
+              child: venuesAsync.when(
+                loading: () => const Center(
+                  child: CircularProgressIndicator(color: AppTheme.accentColor),
                 ),
-              ),
-              data: (venues) {
-                // Apply search and category filtering
-                final filtered = venues.where((venue) {
-                  final matchesSearch =
-                      venue.name.toLowerCase().contains(
-                        _searchQuery.toLowerCase(),
-                      ) ||
-                      venue.location.toLowerCase().contains(
-                        _searchQuery.toLowerCase(),
-                      );
-                  final matchesCategory =
-                      _selectedCategory == 'All' ||
-                      venue.sport.toLowerCase() ==
-                          _selectedCategory.toLowerCase();
-                  return matchesSearch && matchesCategory;
-                }).toList();
-
-                if (filtered.isEmpty) {
-                  return Center(
+                error: (err, stack) => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.search_off_rounded,
+                        const Icon(
+                          Icons.error_outline_rounded,
                           size: 60,
-                          color: AppTheme.secondaryTextColor.withOpacity(0.5),
+                          color: Colors.redAccent,
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          'No venues match your criteria',
+                          'Failed to load venues',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             color: AppTheme.textColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        const SizedBox(height: 8),
+                        Text(
+                          err.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppTheme.secondaryTextColor,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton.icon(
+                          onPressed: () => ref
+                              .read(venuesNotifierProvider.notifier)
+                              .refresh(),
+                          icon: const Icon(Icons.refresh_rounded),
+                          label: const Text('Try Again'),
+                        ),
                       ],
                     ),
-                  );
-                }
-
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
                   ),
-                  itemCount: filtered.length,
-                  itemBuilder: (context, index) {
-                    final venue = filtered[index];
-                    return VenueCard(venue: venue);
-                  },
-                );
-              },
+                ),
+                data: (venues) {
+                  // Apply search
+                  final filtered = venues.where((venue) {
+                    final matchesSearch =
+                        venue.name.toLowerCase().contains(
+                          _searchQuery.toLowerCase(),
+                        ) ||
+                        venue.location.toLowerCase().contains(
+                          _searchQuery.toLowerCase(),
+                        );
+                    return matchesSearch;
+                  }).toList();
+
+                  if (filtered.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.search_off_rounded,
+                            size: 60,
+                            color: AppTheme.secondaryTextColor.withOpacity(0.5),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'No venues match your criteria',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppTheme.textColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 4,
+                    ),
+                    itemCount: filtered.length,
+                    itemBuilder: (context, index) {
+                      final venue = filtered[index];
+                      return VenueCard(venue: venue);
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-   );
+    );
   }
 }
