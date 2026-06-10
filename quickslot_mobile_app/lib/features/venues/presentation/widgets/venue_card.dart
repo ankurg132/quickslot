@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../domain/venue.dart';
 import '../../application/venue_slots_notifier.dart';
-import '../../application/saved_venues_notifier.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class VenueCard extends ConsumerWidget {
@@ -72,10 +71,6 @@ class VenueCard extends ConsumerWidget {
     final slotsAsync = ref.watch(
       venueSlotsNotifierProvider('${venue.id}:$dateStr'),
     );
-
-    // Saved status
-    final savedVenueIds = ref.watch(savedVenuesProvider);
-    final isSaved = savedVenueIds.contains(venue.id);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 20),

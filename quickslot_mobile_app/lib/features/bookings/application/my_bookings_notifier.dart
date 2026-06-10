@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/application/auth_notifier.dart';
 import '../data/bookings_repository.dart';
-import '../data/bookings_repository_impl.dart'; // To access OfflineCacheException
+import '../../../core/common/exceptions.dart';
 import '../domain/booking.dart';
 
 final isOfflineBookingsProvider = StateProvider<bool>((ref) => false);

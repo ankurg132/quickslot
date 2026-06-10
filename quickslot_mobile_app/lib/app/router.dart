@@ -6,7 +6,6 @@ import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/profile_screen.dart';
 import '../features/venues/presentation/venue_list_screen.dart';
 import '../features/venues/presentation/venue_detail_screen.dart';
-import '../features/venues/presentation/saved_venues_screen.dart';
 import '../features/bookings/presentation/my_bookings_screen.dart';
 import 'scaffold_with_nav_bar.dart';
 

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import '../common/colors.dart';
 
 class AppTheme {
-  // Lush Precision Theme Colors
-  static const primaryColor = Color(0xFF006C49); // Lush Deep Green
-  static const accentColor = Color(0xFF10B981);  // Vibrant Emerald Green
-  static const backgroundColor = Color(0xFFF8F9FF); // Soft Canvas Off-White/Blue
-  static const cardColor = Color(0xFFFFFFFF);     // Pure White
-  static const textColor = Color(0xFF0B1C30);     // Slate Navy Text
-  static const secondaryTextColor = Color(0xFF565E74); // Slate Gray Text
-  static const borderColor = Color(0xFFE2E8F0);    // Thin Light Gray Border
+  // Lush Precision Theme Colors mapped from AppColors
+  static const primaryColor = AppColors.primaryColor;
+  static const accentColor = AppColors.accentColor;
+  static const backgroundColor = AppColors.backgroundColor;
+  static const cardColor = AppColors.cardColor;
+  static const textColor = AppColors.textColor;
+  static const secondaryTextColor = AppColors.secondaryTextColor;
+  static const borderColor = AppColors.borderColor;
 
   static ThemeData get lightTheme {
     return ThemeData(

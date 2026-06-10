@@ -10,16 +10,13 @@ import '../domain/venue.dart';
 import '../domain/venue_slot.dart';
 import 'widgets/slot_grid.dart';
 import '../../bookings/application/my_bookings_notifier.dart';
-import '../../bookings/data/bookings_repository_impl.dart';
+import '../../../core/common/exceptions.dart';
 import '../../../core/theme/app_theme.dart';
 
 class VenueDetailScreen extends ConsumerStatefulWidget {
   final String venueId;
 
-  const VenueDetailScreen({
-    super.key,
-    required this.venueId,
-  });
+  const VenueDetailScreen({super.key, required this.venueId});
 
   @override
   ConsumerState<VenueDetailScreen> createState() => _VenueDetailScreenState();
@@ -49,7 +46,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
   String _getPriceForVenue(String name) {
     final lowerName = name.toLowerCase();
     if (lowerName.contains('badminton')) return '₹400';
-    if (lowerName.contains('turf') || lowerName.contains('soccer') || lowerName.contains('football')) {
+    if (lowerName.contains('turf') ||
+        lowerName.contains('soccer') ||
+        lowerName.contains('football')) {
       return '₹1200';
     }
     if (lowerName.contains('basketball')) return '₹800';
@@ -85,7 +84,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
       context: context,
       initialDate: _selectedDate,
       firstDate: DateUtils.dateOnly(DateTime.now()),
-      lastDate: DateUtils.dateOnly(DateTime.now().add(const Duration(days: 30))),
+      lastDate: DateUtils.dateOnly(
+        DateTime.now().add(const Duration(days: 30)),
+      ),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -108,9 +109,13 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
     }
   }
 
-  Future<void> _handleBookSlot(WidgetRef ref, VenueSlot slot, Venue venue) async {
+  Future<void> _handleBookSlot(
+    WidgetRef ref,
+    VenueSlot slot,
+    Venue venue,
+  ) async {
     final dateStr = DateFormat('yyyy-MM-dd').format(_selectedDate);
-    
+
     if (!mounted) return;
     final confirm = await showDialog<bool>(
       context: context,
@@ -123,20 +128,33 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
           ),
           title: const Text(
             'Confirm Booking',
-            style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.textColor, fontFamily: 'Manrope'),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppTheme.textColor,
+              fontFamily: 'Manrope',
+            ),
           ),
           content: Text(
             'Do you want to book ${venue.name} on $dateStr at ${_formatSlotTime(slot.time)}?',
-            style: const TextStyle(color: AppTheme.secondaryTextColor, fontFamily: 'Inter'),
+            style: const TextStyle(
+              color: AppTheme.secondaryTextColor,
+              fontFamily: 'Inter',
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel', style: TextStyle(color: AppTheme.secondaryTextColor)),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: AppTheme.secondaryTextColor),
+              ),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Book Now', style: TextStyle(color: AppTheme.primaryColor)),
+              child: const Text(
+                'Book Now',
+                style: TextStyle(color: AppTheme.primaryColor),
+              ),
             ),
           ],
         );
@@ -157,11 +175,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
 
     try {
       // Call bookSlot in notifier
-      await ref.read(myBookingsNotifierProvider.notifier).bookSlot(
-        widget.venueId,
-        dateStr,
-        slot.time,
-      );
+      await ref
+          .read(myBookingsNotifierProvider.notifier)
+          .bookSlot(widget.venueId, dateStr, slot.time);
 
       // Dismiss loading dialog
       if (!mounted) return;
@@ -219,25 +235,37 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
               SizedBox(width: 8),
               Text(
                 'Slot Already Taken!',
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.textColor, fontFamily: 'Manrope'),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.textColor,
+                  fontFamily: 'Manrope',
+                ),
               ),
             ],
           ),
           content: Text(
-            'Apologies, the ${_formatSlotTime(slot.time)} slot was just booked by another user. We are refreshing the availability grid.',
-            style: const TextStyle(color: AppTheme.secondaryTextColor, fontFamily: 'Inter'),
+            'Apologies, the ${_formatSlotTime(slot.time)} slot was just booked by another user.',
+            style: const TextStyle(
+              color: AppTheme.secondaryTextColor,
+              fontFamily: 'Inter',
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 // Refresh slot grid immediately
-                ref.invalidate(venueSlotsNotifierProvider('${widget.venueId}:$dateStr'));
+                ref.invalidate(
+                  venueSlotsNotifierProvider('${widget.venueId}:$dateStr'),
+                );
                 setState(() {
                   _selectedSlot = null;
                 });
               },
-              child: const Text('OK', style: TextStyle(color: AppTheme.accentColor)),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: AppTheme.accentColor),
+              ),
             ),
           ],
         );
@@ -262,7 +290,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
         width: 64,
         height: 80,
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.accentColor.withValues(alpha: 0.1) : Colors.white,
+          color: isSelected
+              ? AppTheme.accentColor.withValues(alpha: 0.1)
+              : Colors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? AppTheme.primaryColor : AppTheme.borderColor,
@@ -277,7 +307,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? AppTheme.primaryColor : AppTheme.secondaryTextColor,
+                color: isSelected
+                    ? AppTheme.primaryColor
+                    : AppTheme.secondaryTextColor,
                 fontFamily: 'Inter',
               ),
             ),
@@ -307,11 +339,7 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 16,
-            color: AppTheme.primaryColor,
-          ),
+          Icon(icon, size: 16, color: AppTheme.primaryColor),
           const SizedBox(width: 6),
           Text(
             label,
@@ -366,7 +394,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                   fontFamily: 'Inter',
                   fontSize: 12,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  color: isSelected ? Colors.white : AppTheme.secondaryTextColor,
+                  color: isSelected
+                      ? Colors.white
+                      : AppTheme.secondaryTextColor,
                 ),
               ),
               selected: isSelected,
@@ -382,7 +412,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(
-                  color: isSelected ? AppTheme.primaryColor : AppTheme.borderColor,
+                  color: isSelected
+                      ? AppTheme.primaryColor
+                      : AppTheme.borderColor,
                   width: 1.0,
                 ),
               ),
@@ -399,7 +431,8 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
   Widget? _buildBottomBar(Venue venue, String pricePerHour) {
     if (_selectedSlot == null) return null;
 
-    final formattedDateText = "${DateFormat('E d MMM').format(_selectedDate)} • ${_formatSlotTime(_selectedSlot!.time)}";
+    final formattedDateText =
+        "${DateFormat('E d MMM').format(_selectedDate)} • ${_formatSlotTime(_selectedSlot!.time)}";
     final totalPriceText = _formatTotalPrice(pricePerHour);
 
     return Container(
@@ -477,7 +510,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
   Widget build(BuildContext context) {
     final venuesAsync = ref.watch(venuesNotifierProvider);
     final dateStr = DateFormat('yyyy-MM-dd').format(_selectedDate);
-    final slotsAsync = ref.watch(venueSlotsNotifierProvider('${widget.venueId}:$dateStr'));
+    final slotsAsync = ref.watch(
+      venueSlotsNotifierProvider('${widget.venueId}:$dateStr'),
+    );
 
     return venuesAsync.when(
       loading: () => Scaffold(
@@ -485,18 +520,26 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
         appBar: AppBar(
           title: const Text('QuickSlot'),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_rounded, color: AppTheme.textColor),
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: AppTheme.textColor,
+            ),
             onPressed: () => context.pop(),
           ),
         ),
-        body: const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor)),
+        body: const Center(
+          child: CircularProgressIndicator(color: AppTheme.primaryColor),
+        ),
       ),
       error: (err, stack) => Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         appBar: AppBar(
           title: const Text('QuickSlot'),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_rounded, color: AppTheme.textColor),
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: AppTheme.textColor,
+            ),
             onPressed: () => context.pop(),
           ),
         ),
@@ -504,7 +547,11 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline_rounded, size: 48, color: Colors.redAccent),
+              const Icon(
+                Icons.error_outline_rounded,
+                size: 48,
+                color: Colors.redAccent,
+              ),
               const SizedBox(height: 12),
               Text('Error loading venue details: $err'),
             ],
@@ -514,14 +561,24 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
       data: (venues) {
         final venue = venues.firstWhere(
           (v) => v.id == widget.venueId,
-          orElse: () => Venue(id: widget.venueId, name: 'Unknown Venue', description: '', location: '', sport: '', imageUrl: ''),
+          orElse: () => Venue(
+            id: widget.venueId,
+            name: 'Unknown Venue',
+            description: '',
+            location: '',
+            sport: '',
+            imageUrl: '',
+          ),
         );
 
         final pricePerHour = _getPriceForVenue(venue.name);
 
         // Generate next 14 days starting from today
         final today = DateUtils.dateOnly(DateTime.now());
-        final dates = List.generate(14, (index) => today.add(Duration(days: index)));
+        final dates = List.generate(
+          14,
+          (index) => today.add(Duration(days: index)),
+        );
 
         return Scaffold(
           backgroundColor: AppTheme.backgroundColor,
@@ -539,15 +596,27 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
             elevation: 0,
             bottom: const PreferredSize(
               preferredSize: Size.fromHeight(1.0),
-              child: Divider(color: AppTheme.borderColor, height: 1.0, thickness: 1.0),
+              child: Divider(
+                color: AppTheme.borderColor,
+                height: 1.0,
+                thickness: 1.0,
+              ),
             ),
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_rounded, color: AppTheme.textColor, size: 20),
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                color: AppTheme.textColor,
+                size: 20,
+              ),
               onPressed: () => context.pop(),
             ),
             actions: [
               IconButton(
-                icon: const Icon(Icons.share_outlined, color: AppTheme.textColor, size: 20),
+                icon: const Icon(
+                  Icons.share_outlined,
+                  color: AppTheme.textColor,
+                  size: 20,
+                ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -568,17 +637,25 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                   size: 20,
                 ),
                 onPressed: () {
-                  final isCurrentlySaved = ref.read(savedVenuesProvider).contains(widget.venueId);
-                  ref.read(savedVenuesProvider.notifier).toggleSaved(widget.venueId);
+                  final isCurrentlySaved = ref
+                      .read(savedVenuesProvider)
+                      .contains(widget.venueId);
+                  ref
+                      .read(savedVenuesProvider.notifier)
+                      .toggleSaved(widget.venueId);
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(isCurrentlySaved
-                          ? '${venue.name} removed from Saved'
-                          : '${venue.name} saved!'),
+                      content: Text(
+                        isCurrentlySaved
+                            ? '${venue.name} removed from Saved'
+                            : '${venue.name} saved!',
+                      ),
                       duration: const Duration(seconds: 2),
                       behavior: SnackBarBehavior.floating,
-                      backgroundColor: isCurrentlySaved ? Colors.grey[800] : AppTheme.primaryColor,
+                      backgroundColor: isCurrentlySaved
+                          ? Colors.grey[800]
+                          : AppTheme.primaryColor,
                     ),
                   );
                 },
@@ -593,7 +670,10 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                 const SizedBox(height: 8),
                 // Hero Photo Container (rounded corner card style)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Stack(
@@ -604,11 +684,15 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                             height: 220,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
-                              height: 220,
-                              color: Colors.grey[300],
-                              child: const Icon(Icons.broken_image_rounded, size: 48),
-                            ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  height: 220,
+                                  color: Colors.grey[300],
+                                  child: const Icon(
+                                    Icons.broken_image_rounded,
+                                    size: 48,
+                                  ),
+                                ),
                           )
                         else
                           Container(
@@ -616,13 +700,16 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                             color: Colors.grey[300],
                             child: const Icon(Icons.image_rounded, size: 48),
                           ),
-                        
+
                         // Floating Rating Badge
                         Positioned(
                           top: 12,
                           right: 12,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(20),
@@ -663,7 +750,10 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
 
                 // Venue Overview Info Card
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -680,9 +770,14 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                           children: [
                             if (venue.sport.isNotEmpty)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 6,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.accentColor.withValues(alpha: 0.1),
+                                  color: AppTheme.accentColor.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
@@ -770,7 +865,10 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                           spacing: 8,
                           runSpacing: 8,
                           children: [
-                            _buildAmenityChip(Icons.directions_car_rounded, 'Parking'),
+                            _buildAmenityChip(
+                              Icons.directions_car_rounded,
+                              'Parking',
+                            ),
                             _buildAmenityChip(Icons.ac_unit_rounded, 'A/C'),
                             _buildAmenityChip(Icons.shower_rounded, 'Showers'),
                           ],
@@ -782,7 +880,10 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
 
                 // Date Picker Timeline Section
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -828,7 +929,8 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: dates.length,
-                          separatorBuilder: (context, index) => const SizedBox(width: 10),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 10),
                           itemBuilder: (context, index) {
                             return _buildDateItem(dates[index]);
                           },
@@ -865,7 +967,9 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                     loading: () => const Center(
                       child: Padding(
                         padding: EdgeInsets.all(40.0),
-                        child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                        child: CircularProgressIndicator(
+                          color: AppTheme.primaryColor,
+                        ),
                       ),
                     ),
                     error: (err, stack) => Center(
@@ -873,13 +977,23 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                         padding: const EdgeInsets.all(24.0),
                         child: Column(
                           children: [
-                            const Icon(Icons.cloud_off_rounded, size: 40, color: Colors.redAccent),
+                            const Icon(
+                              Icons.cloud_off_rounded,
+                              size: 40,
+                              color: Colors.redAccent,
+                            ),
                             const SizedBox(height: 8),
                             const Text('Failed to load slots'),
                             const SizedBox(height: 12),
                             ElevatedButton(
                               onPressed: () {
-                                ref.read(venueSlotsNotifierProvider('${widget.venueId}:$dateStr').notifier).refresh();
+                                ref
+                                    .read(
+                                      venueSlotsNotifierProvider(
+                                        '${widget.venueId}:$dateStr',
+                                      ).notifier,
+                                    )
+                                    .refresh();
                               },
                               child: const Text('Retry'),
                             ),
