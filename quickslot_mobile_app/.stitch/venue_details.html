@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Venue Details - QuickSlot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed": "#6ffbbe",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#dae2fd",
+                        "secondary-container": "#dae2fd",
+                        "on-secondary-fixed": "#131b2e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed": "#131e19",
+                        "on-primary-container": "#00422b",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary-container": "#303c36",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary": "#006c49",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#d9e6dd",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-primary-fixed": "#002113",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary-fixed-variant": "#005236",
+                        "inverse-surface": "#213145",
+                        "outline": "#6c7a71",
+                        "inverse-primary": "#4edea3",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#cbdbf5",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#bbcabf",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3e4943",
+                        "primary-container": "#10b981",
+                        "tertiary-container": "#99a69e",
+                        "secondary": "#565e74",
+                        "on-surface-variant": "#3c4a42",
+                        "tertiary-fixed-dim": "#bdcac1",
+                        "on-background": "#0b1c30",
+                        "surface-tint": "#006c49",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary": "#55615a",
+                        "on-secondary-container": "#5c647a",
+                        "surface-variant": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "container-max-width": "1280px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "stack-lg": "32px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-[100px] font-body-md text-body-md antialiased">
+<!-- Top Navigation (Task-focused, so only Back button and title if needed, but we'll adapt TopAppBar as a minimalist header) -->
+<header class="w-full sticky top-0 z-40 bg-surface dark:bg-surface flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-sm w-full max-w-container-max-width mx-auto">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="arrow_back">arrow_back</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">QuickSlot</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-on-surface-variant" data-icon="share">share</span>
+</button>
+</header>
+<main class="max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop mt-stack-sm">
+<!-- Hero Section -->
+<section class="w-full rounded-xl overflow-hidden mb-stack-md relative h-64 md:h-96 shadow-md border border-outline-variant/30">
+<img alt="Indoor sports court" class="w-full h-full object-cover" data-alt="A wide, brightly lit indoor sports court featuring polished wooden flooring and crisp white painted lines. The environment feels professional, clean, and modern, echoing a high-performance athletic facility. Natural light streams from high windows, creating a revitalizing and energetic atmosphere. The overall palette includes warm wood tones balanced by vibrant green accent colors reflecting a healthy, active lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqoZyWdw7VZToYXVCMRK66EuaEDwbtVvu0gr1AG5M4xn73DkNEGeqjmPje2D5VmaysUFMG4IcP-FVBooRdDwmjVsVDRdXJS_2sSZBqf7lARxrWpCC81U5VfgIIV9rf0HXK7H8vaAji9QYsCPbVL6Ch4O9-_9PU7LTBw-scNnB_vOY8gsK6uQuLEc22_58he9Uo6ASAl5nhbzmuHOX0UsmnAADVh4iGey7waciAIuySVuxksVPzQbFcwSRACpzUqYdg7eH7StJpL7tq"/>
+<!-- Floating Badge -->
+<div class="absolute top-4 right-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md text-on-surface">4.8</span>
+</div>
+</section>
+<!-- Venue Info -->
+<section class="mb-stack-lg">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-unit">Elite Indoor Court A</h1>
+<div class="flex items-center gap-2 text-on-surface-variant mb-stack-md">
+<span class="material-symbols-outlined text-[20px]" data-icon="location_on">location_on</span>
+<p class="font-body-md text-body-md">123 Sports Avenue, Athletic District</p>
+</div>
+<!-- Amenities Chips -->
+<div class="flex flex-wrap gap-2">
+<div class="px-3 py-1 bg-surface-container-high rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="directions_car">directions_car</span>
+<span class="font-label-sm text-label-sm text-on-surface">Parking</span>
+</div>
+<div class="px-3 py-1 bg-surface-container-high rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="ac_unit">ac_unit</span>
+<span class="font-label-sm text-label-sm text-on-surface">A/C</span>
+</div>
+<div class="px-3 py-1 bg-surface-container-high rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="shower">shower</span>
+<span class="font-label-sm text-label-sm text-on-surface">Showers</span>
+</div>
+</div>
+</section>
+<!-- Date Picker -->
+<section class="mb-stack-lg">
+<div class="flex justify-between items-center mb-stack-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Select Date</h2>
+<span class="font-body-sm text-body-sm text-primary font-medium">August 2024</span>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+<!-- Date Items -->
+<button class="flex-shrink-0 w-16 h-20 rounded-lg border border-outline-variant flex flex-col items-center justify-center bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Mon</span>
+<span class="font-headline-md text-headline-md mt-1">12</span>
+</button>
+<button class="flex-shrink-0 w-16 h-20 rounded-lg border-2 border-primary bg-primary-container/10 flex flex-col items-center justify-center text-on-surface">
+<span class="font-label-sm text-label-sm text-primary uppercase">Tue</span>
+<span class="font-headline-md text-headline-md mt-1 text-primary">13</span>
+</button>
+<button class="flex-shrink-0 w-16 h-20 rounded-lg border border-outline-variant flex flex-col items-center justify-center bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Wed</span>
+<span class="font-headline-md text-headline-md mt-1">14</span>
+</button>
+<button class="flex-shrink-0 w-16 h-20 rounded-lg border border-outline-variant flex flex-col items-center justify-center bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Thu</span>
+<span class="font-headline-md text-headline-md mt-1">15</span>
+</button>
+<button class="flex-shrink-0 w-16 h-20 rounded-lg border border-outline-variant flex flex-col items-center justify-center bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Fri</span>
+<span class="font-headline-md text-headline-md mt-1">16</span>
+</button>
+<button class="flex-shrink-0 w-16 h-20 rounded-lg border border-outline-variant flex flex-col items-center justify-center bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors opacity-50 cursor-not-allowed">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sat</span>
+<span class="font-headline-md text-headline-md mt-1">17</span>
+</button>
+</div>
+</section>
+<!-- Time Slots -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-md">Available Times</h2>
+<div class="grid grid-cols-3 md:grid-cols-4 gap-3">
+<!-- Available Slot -->
+<button class="py-3 px-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-center hover:border-primary transition-colors"><span class="font-label-md text-label-md text-on-surface block">6:00 AM</span><span class="font-label-sm text-label-sm text-on-surface-variant opacity-70 block mt-stack-sm">₹45/hr</span></button>
+<!-- Booked Slot -->
+<div class="py-3 px-2 rounded-lg border border-surface-variant bg-surface-variant text-center opacity-70 cursor-not-allowed">
+<span class="font-label-md text-label-md text-on-surface-variant block line-through">7:00 AM</span>
+</div>
+<!-- Available Slot -->
+<button class="py-3 px-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-center hover:border-primary transition-colors"><span class="font-label-md text-label-md text-on-surface block">8:00 AM</span><span class="font-label-sm text-label-sm text-on-surface-variant opacity-70 block mt-stack-sm">₹45/hr</span></button>
+<!-- Selected Slot -->
+<button class="py-3 px-2 rounded-lg bg-primary text-on-primary text-center shadow-md ring-2 ring-primary/20 ring-offset-2 ring-offset-surface"><span class="font-label-md text-label-md block">9:00 AM</span><span class="font-label-sm text-label-sm text-on-primary opacity-70 block mt-stack-sm">₹45/hr</span></button>
+<!-- Available Slot -->
+<button class="py-3 px-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-center hover:border-primary transition-colors"><span class="font-label-md text-label-md text-on-surface block">10:00 AM</span><span class="font-label-sm text-label-sm text-on-surface-variant opacity-70 block mt-stack-sm">₹55/hr</span></button>
+<!-- Available Slot -->
+<div class="py-3 px-2 rounded-lg border border-surface-variant bg-surface-variant text-center opacity-70 cursor-not-allowed"><span class="font-label-md text-label-md text-on-surface-variant block line-through">11:00 AM</span><span class="font-label-sm text-label-sm text-on-surface-variant block mt-stack-sm">Booked</span></div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar (Transactional Context, overrides global nav) -->
+<div class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest border-t border-outline-variant/20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] px-margin-mobile md:px-margin-desktop py-stack-md flex justify-between items-center">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tue 13 Aug • 9:00 AM</p>
+<p class="font-headline-md text-headline-md text-on-surface font-bold">₹45.00</p>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary/90 active:scale-95 transition-all">
+            Book Now
+        </button>
+</div>
+</body></html>

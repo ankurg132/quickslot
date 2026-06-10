@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuickSlot - My Bookings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Manrope:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed": "#6ffbbe",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#dae2fd",
+                        "secondary-container": "#dae2fd",
+                        "on-secondary-fixed": "#131b2e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed": "#131e19",
+                        "on-primary-container": "#00422b",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary-container": "#303c36",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary": "#006c49",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#d9e6dd",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-primary-fixed": "#002113",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary-fixed-variant": "#005236",
+                        "inverse-surface": "#213145",
+                        "outline": "#6c7a71",
+                        "inverse-primary": "#4edea3",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#cbdbf5",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#bbcabf",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3e4943",
+                        "primary-container": "#10b981",
+                        "tertiary-container": "#99a69e",
+                        "secondary": "#565e74",
+                        "on-surface-variant": "#3c4a42",
+                        "tertiary-fixed-dim": "#bdcac1",
+                        "on-background": "#0b1c30",
+                        "surface-tint": "#006c49",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary": "#55615a",
+                        "on-secondary-container": "#5c647a",
+                        "surface-variant": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "container-max-width": "1280px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "stack-lg": "32px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md md:pb-0 pb-20">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface w-full sticky top-0 z-40 flat no shadows bg-surface dark:bg-surface">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-sm w-full max-w-container-max-width mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="sports_tennis">sports_tennis</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">QuickSlot</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 transition-transform">
+<img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCVy-RcdSXPOs-HOMq3fVz0Y7o_UEAFm0ZqTc8KIcVX_lLFbjL7EevYZng7wC654h6Oy8p702_XJCeV4A33q2FD2M9YdILGBuTQiALFOcmyvc62MUO36SrJQqvikQA1xQLuskU1TN17l8c6qS5enlGWEB41krpyzlkCdeIp0NJvJLSNBcki9pgYfvrK3NmpIPMH_RSVTFU-UDZB-PBHXx4uQ-2WTPQu_ZWl9kwKdY5yZ7sgKcRwvx0TDaW3aU6Dss1cEQCeKwVdOjt"/>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Header & Tabs -->
+<div class="mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-on-surface">My Bookings</h2>
+<div class="flex border-b border-outline-variant">
+<button class="px-6 py-3 font-label-md text-label-md border-b-2 border-primary text-primary active:scale-95 transition-transform bg-surface-container-lowest">
+                    Upcoming
+                </button>
+<button class="px-6 py-3 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-95 transition-transform">
+                    Past Bookings
+                </button>
+</div>
+</div>
+<!-- Bookings List -->
+<div class="flex flex-col gap-stack-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-md flex flex-col md:flex-row md:items-center justify-between gap-stack-md shadow-sm">
+<div class="flex flex-col gap-unit">
+<div class="flex items-center gap-2 mb-unit">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary-container bg-primary-container/10 px-2 py-1 rounded-full uppercase tracking-wider">Confirmed</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Downtown Tennis Club</h3>
+<div class="flex items-center gap-4 text-on-surface-variant font-body-sm text-body-sm mt-unit">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Oct 24, 2023</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>10:00 AM - 11:30 AM</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">sports_tennis</span>
+<span>Court 4 (Hard)</span>
+</div>
+</div>
+<div class="flex items-center md:justify-end border-t md:border-t-0 border-outline-variant pt-stack-md md:pt-0 mt-unit md:mt-0">
+<button class="flex items-center gap-2 text-error hover:bg-error-container/20 px-4 py-2 rounded-lg transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]">close</span>
+                        Cancel
+                    </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-md flex flex-col md:flex-row md:items-center justify-between gap-stack-md shadow-sm">
+<div class="flex flex-col gap-unit">
+<div class="flex items-center gap-2 mb-unit">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary-container bg-primary-container/10 px-2 py-1 rounded-full uppercase tracking-wider">Confirmed</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Riverside Padel Arena</h3>
+<div class="flex items-center gap-4 text-on-surface-variant font-body-sm text-body-sm mt-unit">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Oct 26, 2023</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>6:00 PM - 8:00 PM</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">sports_tennis</span>
+<span>Indoor Padel 1</span>
+</div>
+</div>
+<div class="flex items-center md:justify-end border-t md:border-t-0 border-outline-variant pt-stack-md md:pt-0 mt-unit md:mt-0">
+<button class="flex items-center gap-2 text-error hover:bg-error-container/20 px-4 py-2 rounded-lg transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]">close</span>
+                        Cancel
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container-lowest dark:bg-inverse-surface px-margin-mobile shadow-md rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm mt-1">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-full px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-label-sm mt-1">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+<span class="font-label-sm text-label-sm mt-1">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

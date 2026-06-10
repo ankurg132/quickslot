@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuickSlot - Explore Venues</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed": "#6ffbbe",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#dae2fd",
+                        "secondary-container": "#dae2fd",
+                        "on-secondary-fixed": "#131b2e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed": "#131e19",
+                        "on-primary-container": "#00422b",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary-container": "#303c36",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary": "#006c49",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#d9e6dd",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-primary-fixed": "#002113",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary-fixed-variant": "#005236",
+                        "inverse-surface": "#213145",
+                        "outline": "#6c7a71",
+                        "inverse-primary": "#4edea3",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#cbdbf5",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#bbcabf",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3e4943",
+                        "primary-container": "#10b981",
+                        "tertiary-container": "#99a69e",
+                        "secondary": "#565e74",
+                        "on-surface-variant": "#3c4a42",
+                        "tertiary-fixed-dim": "#bdcac1",
+                        "on-background": "#0b1c30",
+                        "surface-tint": "#006c49",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary": "#55615a",
+                        "on-secondary-container": "#5c647a",
+                        "surface-variant": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "container-max-width": "1280px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "stack-lg": "32px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface w-full sticky top-0 z-40 flat no shadows bg-surface dark:bg-surface md:hidden">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-sm w-full max-w-container-max-width mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed active:scale-95 transition-transform hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full p-2">sports_tennis</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed">QuickSlot</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional looking directly at the camera, conveying trust and reliability. Set against a clean, minimal background with high-key soft lighting to emphasize clarity and health. The image has a polished, corporate modern feel suitable for a high-performance app avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn8VhD4I2mU7hAPxBSXVKZmcT-8MU_D1j2C699-fKbDup6jxYtyyNQpfUdL5kIxsmUX4C_qBrermLe7w-BDH-JPkZxJAyRdOTVbLJSQmMquuTQNV4YFXp7sBCcwomEp4UAeObzqLu7XTPxmaym74bvXN0XzVnndI4Z0S0kZe7AwJ_Lr6XSvs5YwAfa4nxtwxd4a0yzXqAWqhe_6WIOqYOSStYqSt1NV1t7pZ-8WbPVUNA_h2RTWSIcjJFluFonQ4TSk7QITC6JLlGp"/>
+</div>
+</div>
+</header>
+<header class="bg-surface dark:bg-surface w-full sticky top-0 z-40 flat no shadows bg-surface dark:bg-surface hidden md:flex border-b border-surface-container-high">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-md w-full max-w-container-max-width mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">sports_tennis</span>
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">QuickSlot</span>
+</div>
+<nav class="flex items-center gap-8">
+<a class="font-label-md text-label-md text-primary dark:text-primary-fixed flex items-center gap-2 border-b-2 border-primary pb-1" href="#">
+<span class="material-symbols-outlined text-sm">explore</span> Explore
+                </a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors flex items-center gap-2 pb-1" href="#">
+<span class="material-symbols-outlined text-sm">event_note</span> Bookings
+                </a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors flex items-center gap-2 pb-1" href="#">
+<span class="material-symbols-outlined text-sm">bookmark</span> Saved
+                </a>
+</nav>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional looking directly at the camera, conveying trust and reliability. Set against a clean, minimal background with high-key soft lighting to emphasize clarity and health. The image has a polished, corporate modern feel suitable for a high-performance app avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdm8FACkwa3-v-cdeW10yydCPdE3EHJrQgntDKI2pu-8obYf0O9-XvAyhy4GBlAEzpAkWLp9EWgtpHtIzsuE783GEQgGuxS6KpQxbfBzOyvSIeKDap_9HifG_vkyR6kz0bmXaestEo3MwR7ZxccjbJS9WE6IRH8LQ9XTtZxk21PX2UTDvoE4TYqYu-2-xiA2HywFCtBXUzJIMBl75RcSDbzKV5Tz2Mdmiy3IjbiZwYbEVpJ9AfQZUWeNj8tBGItCpaqLlkaGCWC2Uk"/>
+</div>
+</div>
+</header>
+<main class="max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Search Section -->
+<div class="mb-stack-lg">
+<h1 class="font-display-lg text-display-lg mb-stack-md hidden md:block">Find Your Next Game</h1>
+<div class="relative w-full max-w-2xl">
+<span class="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-12 pr-4 py-4 rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder:text-on-surface-variant" placeholder="Search venues, sports, or locations..." type="text"/>
+<button class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-surface-container-low p-2 rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary">tune</span>
+</button>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="mb-stack-lg -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+<div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2">
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md flex-shrink-0 border border-transparent shadow-sm">All Sports</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface font-label-md text-label-md border border-outline-variant hover:border-primary transition-colors flex-shrink-0 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sports_tennis</span> Badminton
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface font-label-md text-label-md border border-outline-variant hover:border-primary transition-colors flex-shrink-0 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sports_soccer</span> Football
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface font-label-md text-label-md border border-outline-variant hover:border-primary transition-colors flex-shrink-0 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sports_basketball</span> Basketball
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface font-label-md text-label-md border border-outline-variant hover:border-primary transition-colors flex-shrink-0 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sports_cricket</span> Cricket
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface font-label-md text-label-md border border-outline-variant hover:border-primary transition-colors flex-shrink-0 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">pool</span> Swimming
+                </button>
+</div>
+</div>
+<!-- Trending Section -->
+<div class="mb-stack-lg">
+<div class="flex justify-between items-end mb-stack-md">
+<h2 class="font-headline-md text-headline-md">Trending Near You</h2>
+<button class="font-label-md text-label-md text-primary hover:text-primary-fixed-dim transition-colors">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant overflow-hidden hover:shadow-lg transition-shadow duration-300 group cursor-pointer flex flex-col h-full">
+<div class="relative h-48 overflow-hidden">
+<img alt="Badminton Court" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A brightly lit, professional indoor badminton court featuring pristine green flooring and clean white lines. The lighting is high-key and uniform, reflecting off the polished surface, creating a vibrant, energetic atmosphere. The setting feels modern, clean, and well-maintained, embodying a professional sports facility aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZr7DByj3pE3svr4z1Sq-sCq33crFi8lJRi12o22jWcLKB3jzb6DUK0x8U3yA_yLYLsnWkTgJ5HWO71mSpe6dVkmy6CnzVhfA7fy2FbX5SidqiaVBHgk2J55gC2GefRBWhtQvLHXVAXXjLaZ-8SIZQW8tMV0osIhSwANj63ncQItL8H4v-y_Xc3QNjU4kiFWcv4urPbNhVjZiTlkVDcoFBhY5xerKwwqZCeyJcy8IZ51CmaFjetFHMpc-h1ELpr6TnteiL5GI3OuCw"/>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-surface-container-lowest/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(124)</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-md text-headline-md text-base leading-tight mb-1">Smash Arena</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> 1.2 km away
+                                </p>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-lg text-primary">₹400</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">/hr</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 line-clamp-2">Premium wooden courts with anti-glare lighting and professional grade synthetic mats. Includes locker rooms.</p>
+<div class="mt-auto">
+<p class="font-label-sm text-label-sm text-on-surface mb-2">Next Available Slots</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container text-on-surface font-label-sm text-label-sm rounded-md border border-outline-variant/30">18:00</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface font-label-sm text-label-sm rounded-md border border-outline-variant/30">19:00</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface font-label-sm text-label-sm rounded-md border border-outline-variant/30">20:30</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant overflow-hidden hover:shadow-lg transition-shadow duration-300 group cursor-pointer flex flex-col h-full">
+<div class="relative h-48 overflow-hidden">
+<img alt="Football Turf" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An expansive, lush green artificial turf football field under bright, clear daylight. The pristine white lines stand out sharply against the vivid green grass. The image is crisp, modern, and inviting, conveying a sense of active lifestyle and premium athletic facilities in a corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPJo1kkQAxQCgr6ppG5PdOkKVwJxsSZqP8_M8Gn17EP_Einm-fide7RE9_-VjxTADEGDNH0v9MtpOYBaJjlGVfVTOtvgygruATqFBRjhQd9FM1sPf0-YItMqqouJdsnamFUocROi8hIMz838zepum62zRSv2-N-tZA8ZWE7YmJdqdSjyVg-yckLEXNz2_SM5OAUy7X5xSH0AlmWh-Cz0Umd-MIJC_5tt5W4QkHjl96Hm47QCNKFJiPM1utmTD_cM0RB_IC_GO32NBM"/>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-surface-container-lowest/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.6</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(89)</span>
+</div>
+<div class="absolute top-3 left-3 bg-error text-on-error px-2 py-1 rounded-md font-label-sm text-label-sm shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span> High Demand
+                        </div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-md text-headline-md text-base leading-tight mb-1">Greenfield Turf 5v5</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> 2.5 km away
+                                </p>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-lg text-primary">₹1200</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">/hr</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 line-clamp-2">FIFA certified 5A-side artificial turf under floodlights. Perfect for evening matches. Bibs and ball provided.</p>
+<div class="mt-auto">
+<p class="font-label-sm text-label-sm text-on-surface mb-2">Next Available Slots</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container text-on-surface font-label-sm text-label-sm rounded-md border border-outline-variant/30">21:00</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface font-label-sm text-label-sm rounded-md border border-outline-variant/30">22:00</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant overflow-hidden hover:shadow-lg transition-shadow duration-300 group cursor-pointer flex flex-col h-full hidden lg:flex">
+<div class="relative h-48 overflow-hidden">
+<img alt="Basketball Court" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An indoor basketball court featuring polished hardwood floors gleaming under bright, professional overhead lighting. The court lines are crisp and clear. The atmosphere is energetic yet structured, reflecting a premium sports club environment suitable for a high-end booking application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBos6R44hs837PUcAteI4lpAfrMCqiKuxObDl5NN4cGc7juaoVRjiCC2G1Q3zXHLc4UUZU_RU7241kHSgcPLn4XE1ZDSCy73tTd58ydT1TNS2CKsIxlsriOR44KIsXm03Pq3sRohilD9Rq7V02Het4eq-WPWVGFjVK7ibKXuLJwQel3QMnk5dfdeOxsJplWLWwcep6oCa1aGP_rpziLWSy773j6QcNZF0nHZZfpIR5qYR_ZsIHd985TcAJ5jBukCjR8zBJ0I7K49xrt"/>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-surface-container-lowest/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.9</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(210)</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-md text-headline-md text-base leading-tight mb-1">Hoops Hub Indoor</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> 3.8 km away
+                                </p>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-lg text-primary">₹800</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">/hr</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 line-clamp-2">Full-size indoor basketball court with spring-loaded hardwood floors and professional hoops. AC facility.</p>
+<div class="mt-auto">
+<p class="font-label-sm text-label-sm text-on-surface mb-2">Next Available Slots</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary-container/10 text-primary font-label-sm text-label-sm rounded-md border border-primary/20">Now</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface font-label-sm text-label-sm rounded-md border border-outline-variant/30">17:00</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface font-label-sm text-label-sm rounded-md border border-outline-variant/30">18:30</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-lowest dark:bg-inverse-surface shadow-md fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container-lowest dark:bg-inverse-surface px-margin-mobile md:hidden">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-full px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-label-sm text-label-sm mt-1">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-label-sm text-label-sm mt-1">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-label-sm text-label-sm mt-1">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
