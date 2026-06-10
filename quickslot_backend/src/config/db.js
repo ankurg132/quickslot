@@ -6,16 +6,30 @@ require('dotenv').config();
 pg.types.setTypeParser(1082, (val) => val);
 
 // Create PostgreSQL connection pool
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432', 10),
-  database: process.env.DB_DATABASE || 'quickslot',
-  user: process.env.DB_USER || 'ankurgupta',
-  password: process.env.DB_PASSWORD || '',
-  max: 20, // max connection pool size
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+const isProduction = process.env.NODE_ENV === 'production' || process.env.DATABASE_URL;
+
+const pool = process.env.DATABASE_URL
+  ? new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false, // Required for secure connections to Neon from Render
+      },
+      max: 20,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000, // Increased for serverless DB cold starts
+    })
+  : new Pool({
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '5432', 10),
+      database: process.env.DB_DATABASE || 'quickslot',
+      user: process.env.DB_USER || 'ankurgupta',
+      password: process.env.DB_PASSWORD || '',
+      max: 20, // max connection pool size
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000, // Increased for local connection margin
+    });
+
+
 
 const CREATE_TABLES_QUERY = `
   CREATE TABLE IF NOT EXISTS venues (
