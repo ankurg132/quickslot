@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "nodejs-backend-patterns": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "skillPath": "skills/nodejs-backend-patterns/SKILL.md",
+      "computedHash": "912fa183d031f99b16bfdf29bbedb3dd11e5a59aa48d880777e1497db1e16b5c"
+    }
+  }
+}
