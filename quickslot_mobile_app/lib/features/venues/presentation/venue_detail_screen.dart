@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../application/venues_notifier.dart';
 import '../application/venue_slots_notifier.dart';
+import '../application/saved_venues_notifier.dart';
 import '../domain/venue.dart';
 import '../domain/venue_slot.dart';
 import 'widgets/slot_grid.dart';
@@ -47,13 +48,13 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
 
   String _getPriceForVenue(String name) {
     final lowerName = name.toLowerCase();
-    if (lowerName.contains('badminton')) return '\$15';
+    if (lowerName.contains('badminton')) return '₹400';
     if (lowerName.contains('turf') || lowerName.contains('soccer') || lowerName.contains('football')) {
-      return '\$35';
+      return '₹1200';
     }
-    if (lowerName.contains('basketball')) return '\$25';
-    if (lowerName.contains('tennis')) return '\$20';
-    return '\$25';
+    if (lowerName.contains('basketball')) return '₹800';
+    if (lowerName.contains('tennis')) return '₹600';
+    return '₹500';
   }
 
   String _formatSlotTime(String time) {
@@ -70,10 +71,10 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
   }
 
   String _formatTotalPrice(String pricePerHour) {
-    final cleaned = pricePerHour.replaceAll('\$', '');
+    final cleaned = pricePerHour.replaceAll('₹', '').replaceAll('\$', '');
     try {
       final val = double.parse(cleaned);
-      return '\$${val.toStringAsFixed(2)}';
+      return '₹${val.toStringAsFixed(2)}';
     } catch (e) {
       return '$pricePerHour.00';
     }
@@ -552,6 +553,32 @@ class _VenueDetailScreenState extends ConsumerState<VenueDetailScreen> {
                     const SnackBar(
                       content: Text('Sharing venue details...'),
                       behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(
+                  ref.watch(savedVenuesProvider).contains(widget.venueId)
+                      ? Icons.bookmark_rounded
+                      : Icons.bookmark_outline_rounded,
+                  color: ref.watch(savedVenuesProvider).contains(widget.venueId)
+                      ? AppTheme.accentColor
+                      : AppTheme.textColor,
+                  size: 20,
+                ),
+                onPressed: () {
+                  final isCurrentlySaved = ref.read(savedVenuesProvider).contains(widget.venueId);
+                  ref.read(savedVenuesProvider.notifier).toggleSaved(widget.venueId);
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(isCurrentlySaved
+                          ? '${venue.name} removed from Saved'
+                          : '${venue.name} saved!'),
+                      duration: const Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: isCurrentlySaved ? Colors.grey[800] : AppTheme.primaryColor,
                     ),
                   );
                 },

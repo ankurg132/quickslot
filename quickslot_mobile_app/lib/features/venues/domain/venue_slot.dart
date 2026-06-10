@@ -7,14 +7,17 @@ enum SlotStatus {
 class VenueSlot {
   final String time; // e.g. '06:00'
   final SlotStatus status;
+  final String? bookedBy;
 
   const VenueSlot({
     required this.time,
     required this.status,
+    this.bookedBy,
   });
 
   factory VenueSlot.fromJson(Map<String, dynamic> json) {
     final statusStr = json['status'] as String? ?? 'available';
+    final bookedBy = json['booked_by'] as String? ?? json['bookedBy'] as String?;
     SlotStatus status;
     switch (statusStr) {
       case 'booked_by_me':
@@ -29,8 +32,9 @@ class VenueSlot {
         break;
     }
     return VenueSlot(
-      time: json['time'] as String? ?? json['slot_time'] as String? ?? '',
+      time: json['time'] as String? ?? json['slot_time'] as String? ?? json['start_time'] as String? ?? '',
       status: status,
+      bookedBy: bookedBy,
     );
   }
 
@@ -50,6 +54,7 @@ class VenueSlot {
     return {
       'time': time,
       'status': statusStr,
+      if (bookedBy != null) 'booked_by': bookedBy,
     };
   }
 
@@ -60,10 +65,12 @@ class VenueSlot {
   VenueSlot copyWith({
     String? time,
     SlotStatus? status,
+    String? bookedBy,
   }) {
     return VenueSlot(
       time: time ?? this.time,
       status: status ?? this.status,
+      bookedBy: bookedBy ?? this.bookedBy,
     );
   }
 }

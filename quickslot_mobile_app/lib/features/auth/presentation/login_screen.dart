@@ -11,11 +11,29 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  String? _selectedUserId;
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _handleLogin() {
+    if (_formKey.currentState!.validate()) {
+      // Use email as the user ID for API requests
+      final email = _emailController.text.trim();
+      ref.read(authNotifierProvider.notifier).login(email);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
@@ -30,7 +48,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               height: 280,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppTheme.accentColor.withOpacity(0.08),
+                color: AppTheme.accentColor.withValues(alpha: 0.08),
               ),
             ),
           ),
@@ -42,7 +60,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               height: 240,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppTheme.primaryColor.withOpacity(0.05),
+                color: AppTheme.primaryColor.withValues(alpha: 0.05),
               ),
             ),
           ),
@@ -50,172 +68,187 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Center(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Logo/Branding
-                    const Icon(
-                      Icons.sports_tennis_rounded,
-                      size: 80,
-                      color: AppTheme.accentColor, // Emerald Green
-                    ),
-                    const SizedBox(height: 16),
-                    // Gradient text branding
-                    ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(
-                        colors: [AppTheme.primaryColor, AppTheme.accentColor],
-                      ).createShader(bounds),
-                      child: const Text(
-                        'QUICKSLOT',
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Logo/Branding
+                      const Icon(
+                        Icons.sports_tennis_rounded,
+                        size: 80,
+                        color: AppTheme.accentColor, // Emerald Green
+                      ),
+                      const SizedBox(height: 16),
+                      // Gradient text branding
+                      ShaderMask(
+                        shaderCallback: (bounds) => const LinearGradient(
+                          colors: [AppTheme.primaryColor, AppTheme.accentColor],
+                        ).createShader(bounds),
+                        child: const Text(
+                          'QUICKSLOT',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 38,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                            color: Colors.white, // Required for ShaderMask
+                            fontFamily: 'Manrope',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Enter your credentials to get started',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 38,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2,
-                          color: Colors.white, // Required for ShaderMask
-                          fontFamily: 'Manrope',
+                          fontSize: 15,
+                          color: AppTheme.secondaryTextColor,
+                          fontFamily: 'Inter',
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Select a user profile to get started',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: AppTheme.secondaryTextColor,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                    const SizedBox(height: 40),
+                      const SizedBox(height: 40),
 
-                    // login card
-                    Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: AppTheme.cardColor,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: AppTheme.borderColor,
-                          width: 1,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.02),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
+                      // Login Card
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: AppTheme.cardColor,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: AppTheme.borderColor,
+                            width: 1,
                           ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const Text(
-                            'Select Profile',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.textColor,
-                              fontFamily: 'Manrope',
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.02),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          ...authState.availableUsers.map((userId) {
-                            final isSelected = _selectedUserId == userId;
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12.0),
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedUserId = userId;
-                                  });
-                                },
-                                borderRadius: BorderRadius.circular(8),
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 150),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 14,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? AppTheme.accentColor.withOpacity(0.08)
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: isSelected
-                                          ? AppTheme.accentColor
-                                          : AppTheme.borderColor,
-                                      width: isSelected ? 2.0 : 1.0,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: isSelected
-                                              ? AppTheme.accentColor
-                                              : AppTheme.backgroundColor,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Icon(
-                                          Icons.person_rounded,
-                                          size: 20,
-                                          color: isSelected ? Colors.white : AppTheme.secondaryTextColor,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      Expanded(
-                                        child: Text(
-                                          userId.toUpperCase().replaceAll('_', ' '),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                            color: isSelected ? AppTheme.textColor : AppTheme.secondaryTextColor,
-                                            fontFamily: 'Inter',
-                                          ),
-                                        ),
-                                      ),
-                                      if (isSelected)
-                                        const Icon(
-                                          Icons.check_circle_rounded,
-                                          color: AppTheme.accentColor,
-                                        ),
-                                    ],
-                                  ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Text(
+                              'Sign In',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.textColor,
+                                fontFamily: 'Manrope',
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Email input
+                            TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              style: const TextStyle(fontFamily: 'Inter', fontSize: 14),
+                              decoration: InputDecoration(
+                                labelText: 'Email Address',
+                                hintText: 'name@example.com',
+                                prefixIcon: const Icon(Icons.email_outlined, color: AppTheme.secondaryTextColor, size: 20),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(color: AppTheme.borderColor),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(color: AppTheme.primaryColor),
                                 ),
                               ),
-                            );
-                          }),
-                          const SizedBox(height: 16),
-
-                          // Login Action Button
-                          ElevatedButton(
-                            onPressed: _selectedUserId == null
-                                ? null
-                                : () {
-                                    ref.read(authNotifierProvider.notifier).login(_selectedUserId!);
-                                  },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.accentColor,
-                              disabledBackgroundColor: AppTheme.borderColor,
-                              disabledForegroundColor: Colors.black26,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (!emailRegex.hasMatch(value.trim())) {
+                                  return 'Please enter a valid email address';
+                                }
+                                return null;
+                              },
                             ),
-                            child: const Text(
-                              'ENTER APP',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
+                            const SizedBox(height: 16),
+
+                            // Password input
+                            TextFormField(
+                              controller: _passwordController,
+                              obscureText: _obscurePassword,
+                              textInputAction: TextInputAction.done,
+                              style: const TextStyle(fontFamily: 'Inter', fontSize: 14),
+                              onFieldSubmitted: (_) => _handleLogin(),
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                prefixIcon: const Icon(Icons.lock_outlined, color: AppTheme.secondaryTextColor, size: 20),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                    color: AppTheme.secondaryTextColor,
+                                    size: 20,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    });
+                                  },
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(color: AppTheme.borderColor),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(color: AppTheme.primaryColor),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                if (value.length < 6) {
+                                  return 'Password must be at least 6 characters';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 24),
+
+                            // Login Action Button
+                            ElevatedButton(
+                              onPressed: _handleLogin,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.accentColor,
+                                disabledBackgroundColor: AppTheme.borderColor,
+                                disabledForegroundColor: Colors.black26,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: const Text(
+                                'ENTER APP',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -225,3 +258,4 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 }
+

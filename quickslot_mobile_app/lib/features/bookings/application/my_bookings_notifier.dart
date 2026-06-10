@@ -33,20 +33,28 @@ class MyBookingsNotifier extends AsyncNotifier<List<Booking>> {
 
   Future<void> bookSlot(String venueId, String date, String slotTime) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
+    try {
       await ref.read(bookingsRepositoryProvider).bookSlot(venueId, date, slotTime);
       final authState = ref.read(authNotifierProvider);
-      return _fetchBookings(authState.currentUserId!);
-    });
+      final bookings = await _fetchBookings(authState.currentUserId!);
+      state = AsyncValue.data(bookings);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      rethrow;
+    }
   }
 
   Future<void> cancelBooking(int bookingId) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
+    try {
       await ref.read(bookingsRepositoryProvider).cancelBooking(bookingId);
       final authState = ref.read(authNotifierProvider);
-      return _fetchBookings(authState.currentUserId!);
-    });
+      final bookings = await _fetchBookings(authState.currentUserId!);
+      state = AsyncValue.data(bookings);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      rethrow;
+    }
   }
 }
 

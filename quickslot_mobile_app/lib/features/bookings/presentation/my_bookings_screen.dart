@@ -50,10 +50,6 @@ class MyBookingsScreen extends ConsumerWidget {
           preferredSize: Size.fromHeight(1.0),
           child: Divider(color: AppTheme.borderColor, height: 1.0, thickness: 1.0),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, color: AppTheme.textColor),
-          onPressed: () => context.pop(),
-        ),
       ),
       body: Column(
         children: [

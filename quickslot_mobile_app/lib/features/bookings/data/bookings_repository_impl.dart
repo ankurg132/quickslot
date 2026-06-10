@@ -89,7 +89,7 @@ class BookingsRepositoryImpl implements BookingsRepository {
         data: {
           'venue_id': venueId,
           'date': date,
-          'slot_time': slotTime,
+          'start_time': slotTime,
         },
       );
     } on DioException catch (e) {
